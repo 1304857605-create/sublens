@@ -1,0 +1,76 @@
+name: CI
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  linux:
+    name: Linux (GCC)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install build tools
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ninja-build
+
+      - name: Show toolchain
+        run: |
+          g++ --version | head -n 1
+          cmake --version | head -n 1
+
+      - name: Configure (Release)
+        run: cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build
+        run: cmake --build build
+
+      - name: Unit tests (67)
+        run: ./build/sublens_tests
+
+      - name: Benchmark smoke test
+        run: ./build/sublens_bench ring vad hud stabilizer > /dev/null
+
+  windows:
+    name: Windows (MinGW)
+    runs-on: windows-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        shell: msys2 {0}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup MSYS2 / MinGW-w64
+        uses: msys2/setup-msys2@v2
+        with:
+          msystem: MINGW64
+          update: false
+          install: >-
+            mingw-w64-x86_64-gcc
+            mingw-w64-x86_64-cmake
+            mingw-w64-x86_64-ninja
+
+      - name: Configure (Release)
+        run: cmake -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build
+        run: cmake --build build
+
+      - name: Unit tests (67)
+        run: ./build/sublens_tests.exe
+
+      - name: Demo smoke test (fast mode, ~9s)
+        run: ./build/sublens_demo.exe en2zh --fast --no-color > /dev/null

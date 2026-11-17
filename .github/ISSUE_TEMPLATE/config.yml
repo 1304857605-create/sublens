@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 先读文档
+    url: https://github.com/1304857605-create/sublens/blob/master/docs/START-HERE.md
+    about: 跑不起来 / 想改代码, 先看这份 5 分钟上手与代码地图
+  - name: 设计说明
+    url: https://github.com/1304857605-create/sublens/blob/master/docs/ARCHITECTURE.md
+    about: 线程模型、关键设计决策与取舍

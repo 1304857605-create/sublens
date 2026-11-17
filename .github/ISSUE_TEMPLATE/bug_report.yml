@@ -1,0 +1,48 @@
+name: Bug report
+description: 报告一个可复现的问题
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        感谢反馈。请尽量附上**可复现**的信息: 平台、命令、实际输出。
+        如果是性能问题, 请附上 `bench.cmd <item>` 的输出。
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: 发生了什么
+      description: 预期行为 vs 实际行为
+      placeholder: |
+        预期: demo.cmd en2zh 正常刷新 HUD
+        实际: 第二句之后 HUD 不再更新
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: 复现步骤
+      description: 具体的命令和顺序
+      placeholder: |
+        1. git clone ...
+        2. build.cmd
+        3. demo.cmd en2zh
+    validations:
+      required: true
+  - type: input
+    id: platform
+    attributes:
+      label: 平台 / 编译器
+      placeholder: "Windows 11 + MinGW-w64 g++ 16.1 / Ubuntu 24.04 + g++ 13"
+  - type: textarea
+    id: logs
+    attributes:
+      label: 日志 / 截图
+      description: 相关输出(注意不要包含隐私信息)
+      render: text
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: 自查
+      options:
+        - label: 已读过 docs/START-HERE.md 的"常见报错"
+        - label: 已用 `test.cmd` 确认单元测试结果

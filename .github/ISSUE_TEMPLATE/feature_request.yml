@@ -1,0 +1,36 @@
+name: Feature request
+description: 提一个功能或改进建议
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        项目边界(避免无效讨论): 当前 ASR/MT 是**可复现的模拟链路**,
+        接真实云服务/端侧模型是欢迎的方向; 但"改成一个消费级 App"不在范围内。
+  - type: textarea
+    id: problem
+    attributes:
+      label: 你想解决什么问题
+      description: 先描述场景与痛点, 不用急着给方案
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: 建议的做法(可选)
+      description: 如果你已经看过代码, 可以指出改哪个模块/接口
+  - type: dropdown
+    id: area
+    attributes:
+      label: 涉及模块
+      multiple: true
+      options:
+        - audio / 音频采集
+        - vad / 端点检测
+        - asr / 语音识别后端
+        - mt / 翻译后端
+        - sched / 稳定前缀与调度
+        - hud / 显示渲染
+        - bench / 基准
+        - android / 真机适配
+        - docs / 文档
